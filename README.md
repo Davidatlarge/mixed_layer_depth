@@ -42,13 +42,13 @@ For a **mixed** water column, *without* max plotting depth supplied
 MLD.DK(depth = mixed$depth, variable = mixed$temperature, threshold = 0.5) 
 ```
 
-    ## [1] "no depth.max supplied, using max(depth) instead"
+    [1] "no depth.max supplied, using max(depth) instead"
 
-![](README_files/figure-markdown_github/mixed_example-1.png)
+<img src="README_files/figure-markdown_github/mixed_example-1.png" style="display: block; margin: auto;" />
 
-    ## [1] "The thereshold is not exceeded. The water column is well mixed to the maximum depth of 99 [units of variable]"
+    [1] "The thereshold is not exceeded. The water column is well mixed to the maximum depth of 99 [units of variable]"
 
-    ## [1] NA
+    [1] NA
 
 For a **stratified** water column, *with* max plotting depth supplied
 
@@ -56,21 +56,21 @@ For a **stratified** water column, *with* max plotting depth supplied
 MLD.DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, depth.max = 50) 
 ```
 
-![](README_files/figure-markdown_github/stratified_example-1.png)
+<img src="README_files/figure-markdown_github/stratified_example-1.png" style="display: block; margin: auto;" />
 
-    ## [1] "mixed layer depth is 26 [units of depth]"
+    [1] "mixed layer depth is 26 [units of depth]"
 
-    ## [1] 26
+    [1] 26
 
-writing the result into an **object** also prints the text result and plot
+writing the result into an **object** also prints the plot and text result
 
 ``` r
 MLD <- MLD.DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, depth.max = 50)
 ```
 
-![](README_files/figure-markdown_github/object_write-1.png)
+<img src="README_files/figure-markdown_github/object_write-1.png" style="display: block; margin: auto;" />
 
-    ## [1] "mixed layer depth is 26 [units of depth]"
+    [1] "mixed layer depth is 26 [units of depth]"
 
 only the **numeric value** is written into the object
 
@@ -78,10 +78,10 @@ only the **numeric value** is written into the object
 MLD
 ```
 
-    ## [1] 26
+    [1] 26
 
 ``` r
 class(MLD)
 ```
 
-    ## [1] "numeric"
+    [1] "numeric"
