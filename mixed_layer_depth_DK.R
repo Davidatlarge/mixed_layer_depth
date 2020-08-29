@@ -38,7 +38,7 @@ MLD_DK <- function(depth, # vector for depth, can be negative
   
   # print info
   if(print.info) {
-    if(plot) {
+    if(plot&is.null(depth.max)) {
       print("no depth.max supplied, using max(depth) instead")
     }    
     if(is.numeric(MLD)) {
