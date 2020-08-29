@@ -36,6 +36,8 @@ stratified <- data.frame(depth = seq(from=0, to=99, by=1),
                          temperature = c(rep(20, times=25), seq(from=20, to=7, length.out=25), seq(from=7, to=5, length.out=50)))
 ```
 
+------------------------------------------------------------------------
+
 For a **mixed** water column, *without* max plotting depth supplied
 
 ``` r
@@ -50,6 +52,8 @@ MLD.DK(depth = mixed$depth, variable = mixed$temperature, threshold = 0.5)
 
     [1] NA
 
+------------------------------------------------------------------------
+
 For a **stratified** water column, *with* max plotting depth supplied
 
 ``` r
@@ -61,6 +65,8 @@ MLD.DK(depth = stratified$depth, variable = stratified$temperature, threshold = 
     [1] "mixed layer depth is 26 [units of depth]"
 
     [1] 26
+
+------------------------------------------------------------------------
 
 writing the result into an **object** also prints the plot and text result
 
