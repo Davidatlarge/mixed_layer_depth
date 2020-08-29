@@ -1,31 +1,43 @@
 Mixed Layer Depth
 ================
 David Kaiser
-2018/01/18
+2021/08/29
 
-Description
------------
+## Description
 
-A function to calculate the depth of the surface mixed layer of a water column, defined as the depth at which a reference parameter changes beyond a given threshold relative to the first value.
+A function to calculate the depth of the surface mixed layer of a water
+column, defined as the depth at which a reference parameter changes
+beyond a given threshold relative to the first value.
 
-Arguments
----------
+## Arguments
 
-*depth* -- vector for depth (in distance or pressure), can be negative but results will be positive
+*depth* – vector for depth (in distance or pressure), can be negative
 
-*variable* -- temperature or density
+*variable* – temperature or density
 
-*threshold* -- the max difference of *variable*, relative to the surface, that marks the end of the MLD
+*threshold* – the max difference of *variable*, relative to the surface,
+that marks the end of the MLD
 
-*depth.max* -- maximum depth to be plotted, uses absolute value of max depth if no value is supplied
+*print.info* = FALSE – should into be printed in the console as a side
+effect
 
-Result
-------
+*plot* = FALSE – should the result be plotted as a side effect
 
-The output is a printed human readable result, a plot showing the data and the resulting mixed layer depth (if any) or the threshold values, and a numeric value of the result. The result storable in an object (or as value e.g. in a data frame) is the numeric value. If the threshold is not exceeded the result will be NA. This is prefereable to using the max depth as the data might not include the entire water column and might thus not reach the thermo/pycnocline.
+*depth.max* = NULL – maximum depth to be plotted, uses absolute value of
+max depth if no value is supplied
 
-Example
--------
+## Result
+
+A numeric value of the Mixed Layer Depth. If the threshold is not
+exceeded the result will be NA. This is preferable to using the max
+depth as the data might not include the entire water column and might
+thus not reach the thermo/pycnocline.
+
+Former side effects of a plot showing the data and the resulting mixed
+layer depth (if any) and the threshold values, and a printed explanation
+of the result are now optional and off by default.
+
+## Example
 
 example data
 
@@ -36,58 +48,45 @@ stratified <- data.frame(depth = seq(from=0, to=99, by=1),
                          temperature = c(rep(20, times=25), seq(from=20, to=7, length.out=25), seq(from=7, to=5, length.out=50)))
 ```
 
-------------------------------------------------------------------------
-
-For a **mixed** water column, *without* max plotting depth supplied
+For a **stratified** water column
 
 ``` r
-MLD.DK(depth = mixed$depth, variable = mixed$temperature, threshold = 0.5) 
+MLD_DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5) 
 ```
 
-    [1] "no depth.max supplied, using max(depth) instead"
+    [1] 26
 
-<img src="README_files/figure-markdown_github/mixed_example-1.png" style="display: block; margin: auto;" />
+For a **mixed** water column
 
-    [1] "The thereshold is not exceeded. The water column is well mixed to the maximum depth of 99 [units of variable]"
+``` r
+MLD_DK(depth = mixed$depth, variable = mixed$temperature, threshold = 0.5) 
+```
 
     [1] NA
 
-------------------------------------------------------------------------
-
-For a **stratified** water column, *with* max plotting depth supplied
+With **side effects**
 
 ``` r
-MLD.DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, depth.max = 50) 
+MLD_DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, 
+              print.info = TRUE, plot = TRUE, depth.max = 50)
 ```
-
-<img src="README_files/figure-markdown_github/stratified_example-1.png" style="display: block; margin: auto;" />
 
     [1] "mixed layer depth is 26 [units of depth]"
 
-    [1] 26
-
-------------------------------------------------------------------------
-
-writing the result into an **object** also prints the plot and text result
-
-``` r
-MLD <- MLD.DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, depth.max = 50)
-```
-
-<img src="README_files/figure-markdown_github/object_write-1.png" style="display: block; margin: auto;" />
-
-    [1] "mixed layer depth is 26 [units of depth]"
-
-only the **numeric value** is written into the object
-
-``` r
-MLD
-```
+<img src="README_files/figure-gfm/side_effects-1.png" style="display: block; margin: auto;" />
 
     [1] 26
 
+With **negative depth**
+
 ``` r
-class(MLD)
+MLD_DK(depth = -stratified$depth, variable = stratified$temperature, threshold = 0.5, 
+              print.info = TRUE, plot = TRUE)
 ```
 
-    [1] "numeric"
+    [1] "no depth.max supplied, using maximum depth instead"
+    [1] "mixed layer depth is -26 [units of depth]"
+
+<img src="README_files/figure-gfm/neg_depth-1.png" style="display: block; margin: auto;" />
+
+    [1] -26

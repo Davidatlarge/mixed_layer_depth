@@ -1,7 +1,7 @@
 ---
 title: "Mixed Layer Depth"
 author: "David Kaiser"
-date: "2018/01/18"
+date: "2021/08/29"
 output: github_document
 ---
 
@@ -16,17 +16,24 @@ A function to calculate the depth of the surface mixed layer of a water column, 
 
 ## Arguments
 
-*depth* -- vector for depth (in distance or pressure), can be negative but results will be positive
+*depth* -- vector for depth (in distance or pressure), can be negative 
 
 *variable* -- temperature or density
 
 *threshold* -- the max difference of *variable*, relative to the surface, that marks the end of the MLD
 
-*depth.max* -- maximum depth to be plotted, uses absolute value of max depth if no value is supplied
+*print.info* = FALSE -- should into be printed in the console as a side effect
+
+*plot* = FALSE -- should the result be plotted as a side effect
+
+*depth.max* = NULL -- maximum depth to be plotted, uses absolute value of max depth if no value is supplied
+
 
 ## Result
 
-The output is a printed human readable result, a plot showing the data and the resulting mixed layer depth (if any) or the threshold values, and a numeric value of the result. The result storable in an object (or as value e.g. in a data frame) is the numeric value. If the threshold is not exceeded the result will be NA. This is prefereable to using the max depth as the data might not include the entire water column and might thus not reach the thermo/pycnocline.
+A numeric value of the Mixed Layer Depth. If the threshold is not exceeded the result will be NA. This is preferable to using the max depth as the data might not include the entire water column and might thus not reach the thermo/pycnocline. 
+
+Former side effects of a plot showing the data and the resulting mixed layer depth (if any) and the threshold values, and a printed explanation of the result are now optional and off by default.
 
 ## Example
 
@@ -39,23 +46,24 @@ stratified <- data.frame(depth = seq(from=0, to=99, by=1),
 
 ```
 
-For a **mixed** water column, *without* max plotting depth supplied
-```{r mixed_example}
-MLD.DK(depth = mixed$depth, variable = mixed$temperature, threshold = 0.5) 
-```
-
-For a **stratified** water column, *with* max plotting depth supplied
+For a **stratified** water column
 ```{r stratified_example}
-MLD.DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, depth.max = 50) 
+MLD_DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5) 
 ```
 
-writing the result into an **object** also prints the plot and text result
-```{r object_write}
-MLD <- MLD.DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, depth.max = 50)
+For a **mixed** water column
+```{r mixed_example}
+MLD_DK(depth = mixed$depth, variable = mixed$temperature, threshold = 0.5) 
 ```
 
-only the **numeric value** is written into the object
-```{r object_print}
-MLD
-class(MLD)
+With **side effects**
+```{r side_effects}
+MLD_DK(depth = stratified$depth, variable = stratified$temperature, threshold = 0.5, 
+              print.info = TRUE, plot = TRUE, depth.max = 50)
+```
+
+With **negative depth**
+```{r neg_depth}
+MLD_DK(depth = -stratified$depth, variable = stratified$temperature, threshold = 0.5, 
+              print.info = TRUE, plot = TRUE)
 ```
