@@ -20,6 +20,19 @@ MLD_DK <- function(depth, # vector for depth, can be negative
     MLD <- NA
   }
   
+  # print info
+  if(print.info) {
+    if(plot&is.null(depth.max)) {
+      print("no depth.max supplied, using maximum depth instead")
+    }    
+    if(is.numeric(MLD)) {
+      print(paste("mixed layer depth is", MLD, "[units of depth]", sep = " ")) 
+    } else {
+      print(paste("The thereshold is not exceeded. The water column is well mixed to the maximum depth of", depth[length(depth)],"[units of depth]",sep=" "))
+    }
+    
+  }
+  
   # plot result
   if(plot) {
     if(is.null(depth.max)) {
@@ -35,20 +48,7 @@ MLD_DK <- function(depth, # vector for depth, can be negative
     abline(v = c(variable[depth==min(abs(depth))]+threshold, variable[depth==min(abs(depth))]-threshold), col = "red")
     text(x = mean(variable), y = min(abs(depth)), "threshold", col = "red") 
   }
-  
-  # print info
-  if(print.info) {
-    if(plot&is.null(depth.max)) {
-      print("no depth.max supplied, using max(depth) instead")
-    }    
-    if(is.numeric(MLD)) {
-      print(paste("mixed layer depth is", MLD, "[units of depth]", sep = " ")) 
-    } else {
-      print(paste("The thereshold is not exceeded. The water column is well mixed to the maximum depth of", depth[length(depth)],"[units of depth]",sep=" "))
-    }
-    
-  }
-  
-  return(MLD)
+
+    return(MLD)
   
 }
